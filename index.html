@@ -6,13 +6,13 @@
   <title>SERP Preview Tool — Google Search Result Preview | Meta Tag Tester</title>
   <meta name="description" content="Preview exactly how your page will look in Google search results. Real-time title tag & meta description preview with character counts and mobile view.">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://serppreview.com">
+  <link rel="canonical" href="https://siebeneamb.github.io/serp-preview-tool/">
   
   <!-- Open Graph -->
   <meta property="og:title" content="SERP Preview Tool — Google Search Preview">
   <meta property="og:description" content="See exactly how your page looks in Google search. Real-time SERP preview with character counters.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://serppreview.com">
+  <meta property="og:url" content="https://siebeneamb.github.io/serp-preview-tool/">
   
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
@@ -21,6 +21,9 @@
 
   <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3195219636674777" crossorigin="anonymous"></script>
+  
+  <!-- GoatCounter Analytics -->
+  <script data-goatcounter="https://serppreview.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 
   <style>
     :root {
@@ -599,7 +602,7 @@
     const title = titleInput.value.trim() || 'Your Title';
     const desc = descInput.value.trim() || 'Your meta description';
     const url = urlInput.value.trim() || 'example.com/your-page';
-    const text = `Title: ${title}\nDescription: ${desc}\nURL: ${url}\n\nPreviewed at https://serppreview.com`;
+    const text = `Title: ${title}\nDescription: ${desc}\nURL: ${url}\n\nPreviewed at https://siebeneamb.github.io/serp-preview-tool/`;
     navigator.clipboard.writeText(text).then(() => {
       const btn = document.getElementById('copyBtn');
       btn.textContent = '✅ Copied!';
