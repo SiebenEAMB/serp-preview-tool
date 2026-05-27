@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SERP Preview Tool — Google Search Result Preview | Meta Tag Tester</title>
+  <meta name="description" content="Preview exactly how your page will look in Google search results. Real-time title tag & meta description preview with character counts and mobile view.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://serppreview.com">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="SERP Preview Tool — Google Search Preview">
+  <meta property="og:description" content="See exactly how your page looks in Google search. Real-time SERP preview with character counters.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://serppreview.com">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SERP Preview Tool">
+  <meta name="twitter:description" content="Preview Google search results before you publish.">
+
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3195219636674777" crossorigin="anonymous"></script>
+
+  <style>
+    :root {
+      --blue: #1a0dab;
+      --green: #006621;
+      --gray: #545454;
+      --light-gray: #f8f9fa;
+      --border: #dadce0;
+      --red: #d93025;
+      --orange: #ea8600;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+      background: #fff;
+      color: #222;
+      min-height: 100vh;
+    }
+
+    /* Ad Placeholder */
+    .ad-banner {
+      width: 100%;
+      max-width: 970px;
+      margin: 0 auto;
+      padding: 12px 16px;
+      text-align: center;
+    }
+    .ad-banner ins {
+      display: block;
+      width: 728px;
+      height: 90px;
+      margin: 0 auto;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 24px 20px 60px;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 0 32px;
+    }
+    header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+    header p {
+      color: var(--gray);
+      font-size: 1.05rem;
+      max-width: 520px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    /* Input Section */
+    .input-section {
+      background: var(--light-gray);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-group:last-child { margin-bottom: 0; }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #444;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 0.95rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #fff;
+      transition: border-color 0.2s;
+      font-family: inherit;
+    }
+    input[type="text"]:focus, textarea:focus {
+      outline: none;
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(26,13,171,0.08);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 60px;
+    }
+
+    .char-count {
+      font-size: 0.78rem;
+      margin-top: 4px;
+      text-align: right;
+      color: var(--gray);
+    }
+    .char-count.warning { color: var(--orange); font-weight: 600; }
+    .char-count.over { color: var(--red); font-weight: 600; }
+
+    /* SERP Preview */
+    .preview-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .preview-label h2 {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+    .device-toggle {
+      display: flex;
+      gap: 4px;
+      background: var(--light-gray);
+      border-radius: 8px;
+      padding: 3px;
+    }
+    .device-btn {
+      padding: 6px 14px;
+      border: none;
+      background: transparent;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      font-weight: 500;
+      color: var(--gray);
+      transition: all 0.15s;
+    }
+    .device-btn.active {
+      background: #fff;
+      color: #222;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+    }
+    .device-btn:hover { color: #222; }
+
+    .serp-frame {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.2s;
+    }
+    .serp-frame.desktop { max-width: 100%; }
+    .serp-frame.mobile { max-width: 380px; margin: 0 auto; }
+
+    .serp-result {
+      padding: 20px 20px 18px;
+      background: #fff;
+    }
+    .serp-result .url {
+      font-size: 0.875rem;
+      color: #202124;
+      line-height: 1.3;
+      margin-bottom: 2px;
+    }
+    .serp-result .url .path {
+      color: #5f6368;
+    }
+    .serp-result .url .arrow {
+      color: #5f6368;
+      font-size: 0.7rem;
+      margin-left: 2px;
+    }
+    .serp-result .url .options {
+      color: #5f6368;
+      margin-left: 4px;
+      font-size: 0.75rem;
+      cursor: default;
+    }
+    .serp-result .title {
+      color: var(--blue);
+      font-size: 1.25rem;
+      line-height: 1.3;
+      font-weight: 400;
+      margin-bottom: 3px;
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+    }
+    .serp-result .title:hover { text-decoration: underline; }
+    .serp-result .title:empty { color: var(--gray); font-style: italic; font-size: 0.95rem; }
+    .serp-result .title:empty::before { content: "Your title will appear here"; }
+    .serp-result .desc {
+      color: var(--gray);
+      font-size: 0.875rem;
+      line-height: 1.58;
+      word-wrap: break-word;
+      min-height: 1.58em;
+    }
+    .serp-result .desc:empty { color: #999; font-style: italic; }
+    .serp-result .desc:empty::before { content: "Your meta description will appear here"; }
+
+    /* Stats Bar */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin: 28px 0 20px;
+    }
+    .stat-card {
+      background: var(--light-gray);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
+    }
+    .stat-card .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #222;
+    }
+    .stat-card .stat-value.good { color: #0d652d; }
+    .stat-card .stat-value.warning { color: var(--orange); }
+    .stat-card .stat-value.bad { color: var(--red); }
+    .stat-card .stat-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--gray);
+      margin-top: 2px;
+    }
+
+    /* Tips */
+    .tips-section {
+      background: #e8f0fe;
+      border: 1px solid #c6dafc;
+      border-radius: 10px;
+      padding: 18px 20px;
+      margin: 20px 0;
+      display: none;
+    }
+    .tips-section.visible { display: block; }
+    .tips-section h3 {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #1967d2;
+      margin-bottom: 6px;
+    }
+    .tips-section ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+    .tips-section li {
+      font-size: 0.9rem;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* Action Buttons */
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      padding: 10px 20px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #fff;
+      font-size: 0.9rem;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.15s;
+      color: #222;
+    }
+    .btn:hover { background: var(--light-gray); }
+    .btn-primary {
+      background: var(--blue);
+      color: #fff;
+      border-color: var(--blue);
+    }
+    .btn-primary:hover { background: #130b8a; }
+
+    /* Related Tools */
+    .related {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+    .related h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .related-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .related a {
+      display: block;
+      padding: 10px 14px;
+      background: var(--light-gray);
+      border-radius: 8px;
+      text-decoration: none;
+      color: var(--blue);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: background 0.15s;
+    }
+    .related a:hover { background: #e8e8e8; }
+
+    footer {
+      text-align: center;
+      padding: 32px 0;
+      color: var(--gray);
+      font-size: 0.8rem;
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.5rem; }
+      .stats-bar { grid-template-columns: 1fr; }
+      .related-grid { grid-template-columns: 1fr; }
+      .ad-banner ins { width: 100%; height: auto; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Ad Banner (top) -->
+<div class="ad-banner">
+  <ins class="adsbygoogle"
+       style="display:inline-block;width:728px;height:90px"
+       data-ad-client="ca-pub-3195219636674777"
+       data-ad-slot="1234567890"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+<div class="container">
+
+  <header>
+    <h1>🔍 SERP Preview Tool</h1>
+    <p>See exactly how your page looks in Google search results before you publish. Real-time preview with character counters.</p>
+  </header>
+
+  <!-- Input -->
+  <div class="input-section">
+    <div class="form-group">
+      <label for="pageTitle">Title Tag</label>
+      <input type="text" id="pageTitle" placeholder="Your SEO title tag (60 character limit)" maxlength="500">
+      <div class="char-count" id="titleCount">0 / 60</div>
+    </div>
+
+    <div class="form-group">
+      <label for="pageDesc">Meta Description</label>
+      <textarea id="pageDesc" placeholder="Your meta description (155-160 character limit)" maxlength="400"></textarea>
+      <div class="char-count" id="descCount">0 / 160</div>
+    </div>
+
+    <div class="form-group">
+      <label for="pageUrl">Page URL</label>
+      <input type="text" id="pageUrl" placeholder="yoursite.com/page-name" value="example.com/your-page">
+    </div>
+
+    <div class="actions">
+      <button class="btn" id="clearBtn">Clear All</button>
+      <button class="btn btn-primary" id="copyBtn">📋 Copy Preview</button>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-bar">
+    <div class="stat-card">
+      <div class="stat-value" id="statTitle">0</div>
+      <div class="stat-label">Title Length</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="statDesc">0</div>
+      <div class="stat-label">Description Length</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value good" id="statStatus">Ready</div>
+      <div class="stat-label">SEO Status</div>
+    </div>
+  </div>
+
+  <!-- Preview Header -->
+  <div class="preview-label">
+    <h2>Google Search Preview</h2>
+    <div class="device-toggle">
+      <button class="device-btn active" data-view="desktop">💻 Desktop</button>
+      <button class="device-btn" data-view="mobile">📱 Mobile</button>
+    </div>
+  </div>
+
+  <!-- SERP Preview -->
+  <div class="serp-frame desktop" id="serpFrame">
+    <div class="serp-result">
+      <div class="url" id="serpUrl">example.com <span class="path">› your-page</span> <span class="arrow">⌵</span> <span class="options">⋮</span></div>
+      <a class="title" id="serpTitle" href="#"></a>
+      <div class="desc" id="serpDesc"></div>
+    </div>
+  </div>
+
+  <!-- Tips -->
+  <div class="tips-section" id="tipsSection">
+    <h3>💡 Optimization Tips</h3>
+    <ul id="tipsList"></ul>
+  </div>
+
+  <!-- Ad Banner (bottom) -->
+  <div class="ad-banner" style="margin: 32px 0;">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-3195219636674777"
+         data-ad-slot="0987654321"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <!-- Related Tools -->
+  <div class="related">
+    <h3>🧰 More Free SEO Tools</h3>
+    <div class="related-grid">
+      <a href="#">Meta Tag Analyzer</a>
+      <a href="#">OG Image Checker</a>
+      <a href="#">Title Tag Optimizer</a>
+      <a href="#">Keyword Density Tool</a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>SERP Preview Tool — Free Google Search Result Preview &copy; 2026</p>
+</footer>
+
+<script>
+  const titleInput = document.getElementById('pageTitle');
+  const descInput = document.getElementById('pageDesc');
+  const urlInput = document.getElementById('pageUrl');
+  const serpTitle = document.getElementById('serpTitle');
+  const serpDesc = document.getElementById('serpDesc');
+  const serpUrl = document.getElementById('serpUrl');
+  const titleCount = document.getElementById('titleCount');
+  const descCount = document.getElementById('descCount');
+  const statTitle = document.getElementById('statTitle');
+  const statDesc = document.getElementById('statDesc');
+  const statStatus = document.getElementById('statStatus');
+  const tipsSection = document.getElementById('tipsSection');
+  const tipsList = document.getElementById('tipsList');
+  const serpFrame = document.getElementById('serpFrame');
+
+  const TITLE_LIMIT = 60;
+  const DESC_LIMIT = 160;
+
+  function updatePreview() {
+    const title = titleInput.value.trim();
+    const desc = descInput.value.trim();
+    const url = urlInput.value.trim() || 'example.com';
+
+    // SERP display
+    serpTitle.textContent = title || '';
+    serpDesc.textContent = desc || '';
+
+    // URL display - clean it up
+    const cleanUrl = url.replace(/^https?:\/\//, '').replace(/\/$/, '');
+    const pathMatch = cleanUrl.match(/^([^\/]+)\/(.+)/);
+    if (pathMatch) {
+      serpUrl.innerHTML = `${pathMatch[1]} <span class="path">› ${pathMatch[2]}</span> <span class="arrow">⌵</span> <span class="options">⋮</span>`;
+    } else if (cleanUrl) {
+      serpUrl.innerHTML = `${cleanUrl} <span class="arrow">⌵</span> <span class="options">⋮</span>`;
+    } else {
+      serpUrl.innerHTML = `example.com <span class="path">› your-page</span> <span class="arrow">⌵</span> <span class="options">⋮</span>`;
+    }
+
+    // Char counts
+    const tLen = title.length;
+    const dLen = desc.length;
+    titleCount.textContent = `${tLen} / ${TITLE_LIMIT}`;
+    descCount.textContent = `${dLen} / ${DESC_LIMIT}`;
+
+    // Color counts
+    titleCount.className = 'char-count' + (tLen > TITLE_LIMIT ? ' over' : tLen > 55 ? ' warning' : '');
+    descCount.className = 'char-count' + (dLen > DESC_LIMIT ? ' over' : dLen > 150 ? ' warning' : '');
+
+    // Stats
+    statTitle.textContent = tLen;
+    statDesc.textContent = dLen;
+
+    const tGood = tLen >= 30 && tLen <= TITLE_LIMIT;
+    const dGood = dLen >= 120 && dLen <= DESC_LIMIT;
+    const tWarn = tLen > 0 && !tGood && tLen <= TITLE_LIMIT;
+    const dWarn = dLen > 0 && !dGood && dLen <= DESC_LIMIT;
+
+    if (tLen === 0 && dLen === 0) {
+      statStatus.textContent = 'Empty';
+      statStatus.className = 'stat-value';
+    } else if (tGood && dGood) {
+      statStatus.textContent = '✅ Great';
+      statStatus.className = 'stat-value good';
+    } else if (tLen > TITLE_LIMIT || dLen > DESC_LIMIT) {
+      statStatus.textContent = '⚠️ Truncated';
+      statStatus.className = 'stat-value bad';
+    } else {
+      statStatus.textContent = '⚠️ Needs Work';
+      statStatus.className = 'stat-value warning';
+    }
+
+    // Tips
+    updateTips(title, desc);
+  }
+
+  function updateTips(title, desc) {
+    const tips = [];
+
+    if (title.length < 30 && title.length > 0) {
+      tips.push('Your title tag is short. Google typically displays up to 60 characters — use 30-60 chars for best results.');
+    }
+    if (title.length === 0) {
+      tips.push('Add a title tag — it&apos;s the most important SEO element for rankings and click-through rate.');
+    }
+    if (title.length > 60) {
+      tips.push('Your title is too long! Google may truncate it after ~60 characters. Try shortening to keep it fully visible.');
+    }
+    if (desc.length < 120 && desc.length > 0) {
+      tips.push('Your meta description is short. Aim for 120-160 characters for optimal visibility in search results.');
+    }
+    if (desc.length > 160) {
+      tips.push('Your meta description may be truncated! Google typically displays up to ~160 characters.');
+    }
+    if (title.length > 0 && desc.length > 0) {
+      const titleWords = title.toLowerCase().split(/[\s,]+/);
+      const descWords = desc.toLowerCase().split(/[\s,]+/);
+      const overlap = titleWords.filter(w => w.length > 3 && descWords.includes(w));
+      if (overlap.length >= 2) {
+        tips.push(`Good keyword alignment: "${overlap.slice(0,3).join(', ')}" appears in both your title and description.`);
+      }
+    }
+
+    if (tips.length > 0) {
+      tipsSection.className = 'tips-section visible';
+      tipsList.innerHTML = tips.map(t => `<li>${t}</li>`).join('');
+    } else {
+      tipsSection.className = 'tips-section';
+    }
+  }
+
+  // Device toggle
+  document.querySelectorAll('.device-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.device-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      serpFrame.className = 'serp-frame ' + btn.dataset.view;
+    });
+  });
+
+  // Clear
+  document.getElementById('clearBtn').addEventListener('click', () => {
+    titleInput.value = '';
+    descInput.value = '';
+    urlInput.value = 'example.com/your-page';
+    updatePreview();
+  });
+
+  // Copy as text
+  document.getElementById('copyBtn').addEventListener('click', () => {
+    const title = titleInput.value.trim() || 'Your Title';
+    const desc = descInput.value.trim() || 'Your meta description';
+    const url = urlInput.value.trim() || 'example.com/your-page';
+    const text = `Title: ${title}\nDescription: ${desc}\nURL: ${url}\n\nPreviewed at https://serppreview.com`;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.getElementById('copyBtn');
+      btn.textContent = '✅ Copied!';
+      setTimeout(() => { btn.textContent = '📋 Copy Preview'; }, 2000);
+    });
+  });
+
+  // Live update on input
+  titleInput.addEventListener('input', updatePreview);
+  descInput.addEventListener('input', updatePreview);
+  urlInput.addEventListener('input', updatePreview);
+
+  // Load from URL params
+  (function() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('title')) titleInput.value = params.get('title');
+    if (params.get('desc')) descInput.value = params.get('desc');
+    if (params.get('url')) urlInput.value = params.get('url');
+    updatePreview();
+  })();
+</script>
+</body>
+</html>
